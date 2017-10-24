@@ -32,6 +32,7 @@ var Comment = Backbone.Model.extend({
     votes: 0
   },
   // Convenience function over `model.get/set`
+  //if we pass in an argument we will set the vote, otherwise we will get the votes
   votes: function(votes) {
     if (arguments.length) {
       this.set('votes', votes);
@@ -41,6 +42,7 @@ var Comment = Backbone.Model.extend({
     }
   }
 });
+
 var CommentView = Backbone.View.extend({
   initialize: function() {
     this.model.on('change:votes', this.render, this);
@@ -111,8 +113,11 @@ var CommentsView = Backbone.View.extend({
      * Remember, we have the underscore functions: */
     this.$el.find('ul').append(this.collection.map(function(comment) {
       // YOUR CODE HERE
+      return `<li>${ comment.get('message') }</li>`;   
+      
+      
     }));
-
+    //console.log(this.$el);
     return this.$el;
   }
 });
@@ -134,7 +139,7 @@ var comments = new Comments(commentList);
 var commentsView = new CommentsView({ collection: comments });
 
 // Append it to the page (uncomment this when you are ready):
-// $('body').append(commentsView.render());
+$('body').append(commentsView.render());
     </script>
   </body>
 </html>

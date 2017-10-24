@@ -82,11 +82,7 @@ var CommentView = Backbone.View.extend({
   initialize: function() {
     //this.render()
     
-    this.model.on('change:votes', function() {
-      return this.votes;
-
-      
-      
+    this.model.on('change:votes', function() {     
     /* Let's break down the line above:
      * - `this`           => the CommentView instance
      * - `this.model`     => the model associated with this view instance
@@ -117,7 +113,7 @@ var CommentView = Backbone.View.extend({
     var html = [
       '<div>',
         '<span class="votes">',
-          '<%=this.model.get('votes')%>',
+        this.model.get('votes'),
         '<span>',
         '<span class="comment">',
           this.model.get('message'),
@@ -147,6 +143,9 @@ var CommentView = Backbone.View.extend({
      * using only $el - but we need to get it onto the page first,
      * so we need to return the html in order to append it to the page.
      */
+     
+     
+     
   }
 });
 
@@ -159,8 +158,9 @@ var comment = new Comment('This is a message');
 // Create a view, and associate it with this model:
 var commentView = new CommentView({ model: comment });
 
-//we have to call render() on our createdView
+//we have to call render() on our createdView to render our html to the screen
 $('body').append(commentView.render());
+
 
 
 /* Notice that we instantiate the view with an object {model: comment}.

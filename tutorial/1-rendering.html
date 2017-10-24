@@ -5,6 +5,7 @@
     <script src="../lib/backbone/backbone.js"></script>
   </head>
   <body>
+    <div id="message"></div>
     <script>
 // Now it is your turn.  
 
@@ -25,18 +26,24 @@ var renderSomethingOnThePage = function(message) {
    * This also allows us to space out the html as we're used to,
    * with indents to make it easier to read.
    */
-  var html = [
-    '<div>',
-      '<span>',
-        message,
-      '</span>',
-    '</div>',
-    '<br/>'
-  ].join('');
-
+  // var html = [
+  //   '<div>',
+  //     '<span>',
+  //       message,
+  //     '</span>',
+  //   '</div>',
+  //   '<br/>'
+  // ].join('');
+  
+  //debugger;
+  var template = _.template('<%- message %></br>');
+  //console.log(template);
+  var $element = $('#message');
+  $element.append(this.template, template({message}));
+  
   /* Question:
    * How would you modify this template to add style to the look of the page?
-   *
+   * Added the div ID #message
    * _Look below for one possible solution._
    */
 
@@ -45,8 +52,11 @@ var renderSomethingOnThePage = function(message) {
    * is 'rendered', or drawn, with the message you pass to
    * the function argument.
    */
-  $('body').append(html);
+  // $('body').append(htmlTemp);
 };
+
+
+
 
 // Let's try it out:
 renderSomethingOnThePage(
@@ -92,6 +102,7 @@ var Message = Backbone.Model.extend({
    *
    * Before you continue, you should look up `initialize` in
    * [the documentation](http://backbonejs.org/#Model-constructor).
+   * set starting stage,   
    */
   initialize: function(){
     /* This code will be run when we instantiate a new message.
@@ -101,7 +112,15 @@ var Message = Backbone.Model.extend({
      * Putting it into the initialize function let's us be sure that
      * all models that are created will have event listeners on them.
      */
-    this.on(YOUR CODE HERE);
+    //this.on(YOUR CODE HERE);
+    
+    this.on('change', function(){
+      renderSomethingOnThePage(this.get('message'))
+    });
+    
+    
+    
+    
     /* It is your turn to write the event handler.
      *
      * Make an event listener that will listen for a `change` in this model's
@@ -141,6 +160,9 @@ var myNewMessage = new Message();
 
 // ...and then make a change on that model to see it render
 myNewMessage.set({message: 'someMessage'});
+myNewMessage.alertThisMessage();
+myNewMessage.set({message: 'one more message'});
+myNewMessage.alertThisMessage();
 
 
 /* Once the model is rendering on the `change` event, move on to step 3!
